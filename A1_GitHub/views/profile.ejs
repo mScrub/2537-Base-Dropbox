@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Page Load of Profile EJS</title>
+    <!-- <link rel="stylesheet" href="profile.css"> -->
+    <link rel="stylesheet" href="/public/style.css">
+</head>
+
+<body class="profileBody">
+    <!-- pass id/name/image -->
+    This Pokemon's ID is: <%= id %>
+        <br>
+        <div>
+            <!-- Injected <% %> inside the src link -->
+        </div>
+
+        <div class="base_elements">
+            <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/<%= id %>.png"
+            alt="" class="profileContainer">
+            This Pokemon's name is <%= name %>
+                <!-- Not JS, injecting ejs syntax of ID. -->
+                <br>
+                They weigh: <%= weight %> kg.
+                    <br>
+                    <%= name %>'s HP is: <%= hp %>
+                            <!-- Progress Bar of HP -->
+                            <progress value="<%= hp %>" max="255">
+                                <%= hp %>
+                            </progress>
+        </div>
+
+</body>
+
+</html>
