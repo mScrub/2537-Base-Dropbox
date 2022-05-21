@@ -28,15 +28,10 @@ function process_search_Pokemon_response(obtained_api_data){
 
 
 function processPokeType(obtainedApiToSetType){
-    // console.log(obtainedApiToSetType)
-    // console.log(obtainedApiToSetType.types[0].type["name"])
     console.log(obtainedApiToSetType.types[0].type.name)
     if (pokemon_type_global === obtainedApiToSetType.types[0].type.name){
-        // console.log("Hello World")
         process_search_Pokemon_response(obtainedApiToSetType)
-        // console.log(process_search_Pokemon_response(obtainedApiToSetType))
     }
-
 }
 
 // Initial call of display when option is switched to different types.
