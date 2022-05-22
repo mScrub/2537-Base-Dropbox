@@ -1,0 +1,85 @@
+main{
+    display: grid;
+    grid-template-areas:"left-box right-box";
+}
+
+
+*{
+    font-family: 'Courier New', Courier, monospace;
+}
+
+body{
+    /* background color and image allotment */
+    color: white;
+    background-image: url(timeline_hourglass_remedica.jpg);
+    background-position: fit-content;
+}
+
+.redirectBox{
+    display: grid;
+    grid-area: right-box;
+    grid-column-start: -1;
+    justify-content: start;
+    row-gap: 0.5em;
+    background-color: #0e1428;
+    border: 2px #f0a202 solid;
+    max-height:4rem;
+    max-width: fit-content;
+}
+
+
+a:visited{
+    color: white;
+}
+
+
+.redirectButton:hover{
+    border: #f0a202;
+    background-color: #f0a202;
+}
+
+
+
+.historicalData{
+    color: white;
+    grid-area: left-box;
+    display: grid;
+    /* bigger row spacing */
+    /* grid-template-rows: 33% 33% 33%; */
+    align-items: start;
+    row-gap: 0.5em;
+    background-color: #0e1428;
+    border: 2px #f0a202 solid;
+    border-radius: 5px;
+    /* scroll based on overflow */
+    overflow:inherit;
+    /* for boxx to wrap around our items */
+    max-width: fit-content;
+}
+
+.userInfoContainer{
+    /* apply grid to entire child container for row stack */
+    display: grid;
+    padding: 10px;
+    align-content: space-between;
+    /* space between has no effect? */
+    justify-content: space-between;
+}
+
+
+a{
+    margin-top: 5px;
+}
+
+
+
+/* button style */
+button{
+    color:black;
+    border-radius: 5px;
+}
+
+/* grab display */
+button:hover{
+    cursor:-webkit-grab;
+}

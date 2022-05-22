@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Page HTML!</title>
+    <!-- document not ready if we miss JS script library. -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- no complaints on css MIME type after moving this into same public folder..  -->
+    <link rel="stylesheet" href="RegistrationStyle.css">
+    <!-- runtime register.js -->
+</head>
+<body>
+<div class="login-form"> 
+  <h3>Registration Page</h3>
+    <div class="input-group">
+      <label for="username">Username:</label>
+      <input type="text" class="username"/>
+    </div>
+    <div class="input-group">
+      <label for="email">Email:</label>
+      <input type="email" class="email" />
+    </div>
+    <div class="input-group">
+      <label for="password">Password:</label>
+      <input class="password" />
+    </div>
+    <button class="RegisterNewUser">Register</button>
+  <a href="login.html">Login</a>
+</div>
+</body>
+
+<script src="register.js"></script>
+
+</html>

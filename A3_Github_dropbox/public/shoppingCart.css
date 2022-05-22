@@ -1,0 +1,178 @@
+*{
+    font-family: 'Courier New', Courier, monospace;
+}
+
+h1{
+    text-align: center;
+}
+
+/* main container for cart. middle alignment of entire shop cart */
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    /* 24px approx l/r */
+    padding: 0 1.5em;
+}
+
+/*  */
+.content-section {
+    margin: 1em;
+}
+
+
+/* Header styling */
+.section-header {
+    font-weight: normal;
+    color: rgb(250, 133, 0);
+    text-align: center;
+    font-size: 2.5em;
+}
+
+/* Cart header settings */
+.cart-header {
+    font-weight: bold;
+    font-size: 1.25em;
+    color: #333;
+}
+
+/* Cart row setting */
+.cart-row {
+    display: flex;
+    /* row by default */
+    flex-direction: row;
+}
+
+.cart-row:last-child {
+    border-bottom: 1px solid black;
+}
+
+.cart-row:last-child .cart-column {
+    border: none;
+}
+
+
+/* cart-items */
+/* span adjust through flexbox cart-row*/
+.cart-item-title {
+    color: #333;
+    margin-left: .5em;
+    font-size: 1.2em;
+}
+
+
+/* even split amongst all class based spans */
+/* Even split amongst all shopping box items? */
+.cart-item {
+    width: 45%;
+}
+
+/* span adjust */
+.cart-price {
+    width: 20%;
+    font-size: 1.2em;
+    color: #333;
+}
+
+/* quantity count */
+.cart-quantity {
+    width: 35%;
+}
+
+/* for each cart column for line styles at the bottom*/
+.cart-column {
+    display: flex;
+    align-items: center;
+    /* only apply margin to each item/price/qty based on span width */
+    border-bottom: 1px solid  rgb(250, 133, 0);
+    margin-right: 1.5em;
+    padding-bottom: 1em;
+    margin-top: 1em;
+}
+
+
+/* Total bottom piece of cart */
+.cart-total {
+    /* shift left */
+    text-align: end;
+    margin-top: 1em;
+    margin-right: 1em;
+}
+
+.cart-total-title {
+    font-weight: bold;
+    font-size: 1.5em;
+    color: black;
+    margin-right: 20px;
+}
+
+.cart-total-price {
+    color: #333;
+    font-size: 1.1em;
+}
+
+
+/* General button adjusters for hover/click effect etc */
+.btn-purchase {
+    display: block;
+    margin: 2em 2em 2em 50em;
+    font-size: 1em;
+}
+
+
+.btn-primary {
+    /* primary display color */
+    color: white;
+    background-color: rgb(250, 133, 0);
+    border: none;
+    border-radius: 5px;
+}
+
+.btn-primary:hover {
+    /* hover over the main button, get black bg */
+    background-color: black;
+    cursor: pointer;
+}
+
+
+.big-container-for-cards{
+    width: 100%;
+    display: flex;
+    /* apply flex flow wrapper to have cards stack properly 
+    because of the given container flex size*/
+    flex-flow:wrap;
+    align-items: center;
+    page-break-inside: avoid;
+}
+
+.shop-column{
+    display: flex;
+}
+
+.shoppingBoxItem{
+    width: 45%;
+}
+
+.shoppingBoxPrice{
+    width: 20%;
+    font-size: 1.2em;
+    color: #333;
+}
+.shoppingBoxQty{
+    width: 35%;
+}
+
+
+.DeleteButton{
+    margin-left: 4em;
+    color: white;
+    background-color: rgb(250, 133, 0);
+    border: none;
+    border-radius: 5px;
+}
+
+.DeleteButton:hover {
+    /* hover over the main button, get black bg */
+    background-color: black;
+    cursor: pointer;
+}
+
