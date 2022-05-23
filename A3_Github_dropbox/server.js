@@ -90,8 +90,9 @@ const pokemonCartSchema = new mongoose.Schema({
     hits: Number,
     time: String,
     name: String,
-    price: String,
+    price: Number,
     qty: Number,
+    total: Number,
 });
 // Collection ready. JSON object is mySecondDataBase, then collection = timelineevents, documents within.
 const cartModel = mongoose.model("pokecarts", pokemonCartSchema);
@@ -164,7 +165,6 @@ app.use(logger1)
 app.get('/home', function (req, res) {
 
     console.log("/Home route got triggered.")
-
     // res.status(200).sendFile(path.resolve(__dirname, "public", "index.html"));
     if (req.session.isAuthenticated){
         // if user is authenticated, then redirect to search.html
@@ -195,6 +195,20 @@ app.get('/home', function (req, res) {
     // temp += `Hi ${req.session.user}`
     // temp += "Welcome to the home page!"
     // res.send(temp)
+})
+
+app.get('/', function (req, res){
+    console.log("test route")
+    if (req.session.isAuthenticated){
+        // if user is authenticated, then redirect to search.html
+        res.redirect('/search.html')
+        // res.send(`'Hi there ${req.session.user}`)
+    }
+    else{
+        // redirect to only login.html page
+        res.redirect('/index.html')
+    }
+
 })
 
 // Post W3 Schools is better, not showing information through URL https://www.w3schools.com/tags/ref_httpmethods.asp
@@ -232,12 +246,21 @@ app.post('/login/validation', function (req, res, next) {
 // routes we make and visit can cause a redirect.
 // auth pulled out
 app.get('/searchPage', function (req, res, next) {
-    // }
+
+    console.log("the callback function of /searchPage is triggered")
+    if (req.session.isAuthenticated){
+        // if user is authenticated, then redirect to search.html
+        res.redirect('/search.html')
+        // res.send(`'Hi there ${req.session.user}`)
+    }
+    else{
+        // redirect to only login.html page
+        res.redirect('/login.html')
+    }
     // we've set a logger 3 local middleware to track this route. calls after 1
-    console.log("the callback function of /searchPage is triggred")
     // redirect user to html to choose register or login.
     // It works.. so route to html.
-    res.redirect('/search.html')
+    // res.redirect('/search.html')
     // res.redirect('login')
     // res.send("Please provide the credentials through the URL.")
 })
@@ -282,33 +305,6 @@ function searchBlock(req, res, next) {
     }
 }
 
-
-
-
-
-// app.post("/register", async (req, res) => {
-//     const {username, email, password} = req.body;
-//     let user = await UserModel.findOne({email});
-
-//     if (user){
-//     //    temp = `It appears to be that you've already used this email!
-//     //    Please go back to try again -> </a href="/register">Here!<a>`
-//     //    return res.send(temp);
-
-//        return res.redirect('/register')
-//     }
-//     else {
-//         user = new UserModel({
-//             username,
-//             email,
-//             password
-//         })
-//     }
-//     await user.save();
-
-//     res.redirect("/login");
-
-// })
 
 
 
@@ -387,38 +383,35 @@ app.put('/register/create', function (req, res) {
 })
 
 
-// Old Checker
-// app.get('/login/checkUser', function (req, res, next) {
-//     // users dictionary/variable, and we're going to try and get the value of the user if it exists in the DB, and check if it's matched to the user of what the user passed
-//     // set var of .auth true
-//     if (users[req.params.user] == req.params.pass) {
-//         req.session.isAuthenticated = true
-//         req.session.user = req.params.user
-//         // res.send("Successful Login!")
-//         res.redirect('/')
-
-//         // We cannot do .send() and .redirect() simultaneously.
-//     }
-//     // non-successful login
-//     else {
-//         req.session.isAuthenticated = false
-//         res.send("Unsuccessful Login!")
-//     }
-// })
-
 
 // CRUD ROUTES FOR SHOP CART--------------------------------------------------- Beginning of A3, timeline SSR (server-side render)
+
+// find the data
+app.get('/onlineShopping/getShoppingCartData', function (req, res) {
+    cartModel.find({}, function (err, data) {
+        if (err) {
+            console.log("Error " + err);
+        } else {
+            console.log("Data " + data);
+        }
+        // data send
+        res.send(data);
+
+    })
+})
 
 
 // insert route. to add these items.
 // CREATE
 // In the text field, of the body, we want text
+// total stores the amount. Price stays same
 app.put('/onlineShopping/insertCardToPurchase', function (req, res) {
     console.log(req.body);
     cartModel.create({
         name: req.body.name,
         price: req.body.price,
-        qty: req.body.qty
+        qty: req.body.qty,
+        total: req.body.total, 
     }, function (err, data) {
         if (err) {
             console.log("Error " + err);
@@ -426,32 +419,72 @@ app.put('/onlineShopping/insertCardToPurchase', function (req, res) {
             console.log("Data inserted" + data);
         }
         res.send("Insertion is done!");
-    });
+    })
 })
 
 
 
 // UPDATE
-app.get('/onlineShopping/increaseCardQty/:id', function (req, res) {
+app.get('/onlineShopping/increaseCardQty/:id/:qty', function (req, res) {
     console.log(req.params.id)
+    incrementQtyAsBatch = req.params.qty
+    console.log('value of the parameters' + req.params.qty)
     cartModel.updateOne({
         _id: req.params.id
     }, {
         $inc: {
-            qty: 1
+            qty: incrementQtyAsBatch
         }
     }, function (err, data) {
         if (err) {
             console.log("Error " + err);
         } else {
-            console.log("Hits has been updated. " + data);
+            console.log(`ID has ${req.params.id} been incremented. `+ data);
         }
-        res.send("Update is done!");
+    })
+})
+
+
+// Decrease Card Qty.
+app.get('/onlineShopping/decreaseCardQty/:id/:qty', function (req, res) {
+    console.log(req.params.id)
+    decrementQtyAsBatch = req.params.qty
+    cartModel.updateOne({
+        _id: req.params.id
+    }, {
+        $inc: {
+            qty: decrementQtyAsBatch
+        }
+    }, function (err, data) {
+        if (err) {
+            console.log("Error " + err);
+        } else {
+            console.log(`ID has ${req.params.id} been decremented. `+ data);
+        }
+        res.send(data);
     });
 })
 
 
-// Delete via specific id.
+// increasePriceValue
+app.get('/onlineShopping/increaseCardTotal/:id/:total', function (req, res) {
+    cardTotal = req.params.total
+    cartModel.updateOne({
+        _id: req.params.id
+    }, {
+        $inc: {
+            total: cardTotal
+        }
+    }, function (err, data) {
+        if (err) {
+            console.log("Error " + err);
+        } else {
+            console.log(`ID has ${req.params.id} been given new total. `+ data);
+        }
+    })
+})
+
+// Delete via specific object_id in DB
 app.get('/onlineShopping/deleteCard/:id', function (req, res) {
     cartModel.deleteOne({
         _id: req.params.id
