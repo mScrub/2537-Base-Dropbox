@@ -51,7 +51,6 @@ const {
 // may not need topology. Our own Server to send it over.  
 // useNewUrlParser: true, useUnifiedTopology: true timelineDB
 
-//  connect(mongodb://localhost:27017/timelineDB)
 // remote connector / promise is sent to us using .then() to catch.
 mongoose.connect(connectorForLoginAndPokemon, {
     useNewUrlParser: true,
@@ -352,15 +351,7 @@ function logger3(req, res, next) {
 }
 
 
-// Cutted out the .get method, now we wanna check 
-// authentication process, we can do redirects too
-// Another page that can access session variable are the same sessions, (2+ tabs = 1 session, unless we open a fresh browser) A
-// 1 user that is authenticated. html form for user/pw, but we can do it through URL params for the interim
-// We can add another route because we don't have a login route yet, specifically a user/pw req. // added above.
 
-
-
-// for logoff, just set auth to false, suppose person clicks on logout, then it'll give a new path link.
 
 
 // ---------------------------- NEW CREATION ROUTES FOR LOGIN/SESSIONS

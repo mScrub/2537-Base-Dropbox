@@ -1,48 +1,3 @@
-// // async and await for the changes to happen.
-// async function changeQty() {
-//     // listens to thjis value 
-
-//     // so this value targets our class .cardprice, but we used list item to hold the value
-//     price = $('.card-price').val();
-//     console.log('price is' + price)
-//     quantity = $(this).val();
-//     console.log(quantity)
-//     idOfAttributeWhichIsClient = this.id
-//     if (quantity >= 1) {
-//         for (let i = 0; i < quantity; i++) {
-//             await $.ajax({
-//                 type: "GET",
-//                 url: `http://localhost:5002/onlineShopping/increaseCardQty/${idOfAttributeWhichIsClient}`,
-//                 success: () => {
-//                     $.ajax({
-//                         type: "GET",
-//                         url: `http://localhost:5002/onlineShopping/getShoppingCartData`,
-//                         success: (callbackData) => {
-//                             console.log(callbackData)
-//                         }
-//                     })
-//                 }
-//             })
-//         }
-//         loadShoppingCartData();
-//     } else if (quantity < 1) {
-//         for (let i = 0; i > quantity; quantity++) {
-//             await $.ajax({
-//                 type: "GET",
-//                 url: `http://localhost:5002/onlineShopping/decreaseCardQty/${idOfAttributeWhichIsClient}`,
-//                 success: (callbackData) => {
-//                     console.log(callbackData)
-//                 }
-//             })
-//         }
-//         // only update cart after x number of increments.
-//         loadShoppingCartData();
-//     }
-
-
-
-
-
 // remove card feature
 function removeCardButton() {
     idOfClient = this.id
@@ -72,50 +27,22 @@ function removeCardButton() {
 
 
 
-// some math..
-
-// if (thisValue )
-
-// console.log(idOfValue)
-
-
-// console.log(idOfAttribute)
-// Gotta use this? rather..?
-// currentValue = $(this).val(); 
-// console.log(currentValue)
-
-//     var cartItemContainer = document.getElementsByClassName('card-quantity-input')[0].p
-
-// $.ajax({
-//     type: "GET",
-//     url: `http://localhost:5002/onlineShopping/increaseCardQty/${idOfAttribute}`,
-//     success: (callbackData) => {
-//         console.log(callbackData)
-//         loadShoppingCartData();
-//     }
-// })
-
 quantity = null
 cardPrice = null
 
 function increaseCardTotal(incrementObject) {
-    // incrementObject.preventDefault();
-    // didn't use incrementObject anyway?? 
-    // console.log(incrementObject)
-    // // console.log("Price of Card" + incrementObject.price)
     incrementObject[0].total = quantity * cardPrice
     // console.log(incrementObject[0].total)
 
     console.log(quantity)
     console.log(cardPrice)
-    if (incrementObject[0].total == incrementObject[0].total){
-        $.ajax({
-            type: "GET",
-            url: `http://localhost:5002/onlineShopping/increaseCardTotal/${idOfAttributeWhichIsClient}/${incrementObject[0].total}`,
-            success: () => {}
-        })
-        loadShoppingCartData();
-    }
+    $.ajax({
+        type: "GET",
+        url: `http://localhost:5002/onlineShopping/increaseCardTotal/${idOfAttributeWhichIsClient}/${incrementObject[0].total}`,
+        success: () => {}
+    })
+    loadShoppingCartData();
+
 
 
     // .then($.ajax({

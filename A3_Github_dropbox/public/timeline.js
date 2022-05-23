@@ -10,7 +10,7 @@
 function loadEvents(){
     $.ajax({
         type: "GET",
-        url: "http://localhost:5000/onlineShopping/getShoppingCartData",
+        url: "http://localhost:5002/onlineShopping/getShoppingCartData",
         success: processTimelineData
     })
 }

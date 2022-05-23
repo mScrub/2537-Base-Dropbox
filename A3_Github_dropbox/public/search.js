@@ -157,9 +157,5 @@ function setup() {
     })
     $("main").on('click', '.shop-item-button', addToCartClicked)
 
-    // var addToCartButtons = document.getElementsByClassName('.shop-item-button')
-    // for (var i = 0; i < addToCartButtons.length; i++) {
-    //     var button = addToCartButtons[i]
-    //     button.addEventListener('click', addToCartClicked)
 }
 $(document).ready(setup)
