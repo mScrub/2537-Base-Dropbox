@@ -65,9 +65,6 @@ function updateDiv() {
 
 // async and await for the changes to happen.
 async function changeQty() {
-    // so this value targets our class .cardprice, but we used list item to hold the value
-    // price = $('.card-price').val();
-    // console.log('price is' + price)
     cardPrice = $('.card-price').val();
     quantity = $(this).val();
     console.log(quantity)
