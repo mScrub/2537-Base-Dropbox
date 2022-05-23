@@ -25,33 +25,6 @@ const colors = {
     normal: '#F5F5F5'
 }
 
-// Appending pokemon images for display.
-function process_search_Pokemon_response(obtained_api_data) {
-    console.log(obtained_api_data)
-    var bgColorChange = ""
-    typeForColor = obtained_api_data.types[0].type.name
-    for (var x in colors) {
-        if (typeForColor == x) {
-            bgColorChange = colors[x]
-        }
-    }
-    $("main").append(`
-            <div class="image_container" style="background-color:${bgColorChange}">
-                <div class=OuterDiv>
-                    <span>
-                    <button class="shop-item-button">Add to Cart!</button>
-                    </span>
-                    <h3 class="shop-pokemon-name"> ${obtained_api_data.name} </h3> 
-                    <a href="/profile/${obtained_api_data.id}">  
-                    <img src="${obtained_api_data.sprites.other["official-artwork"].front_default}">
-                    </a>
-                    <span>
-                    Price: <span class="shop-pokemon-price">${obtained_api_data.weight}</span>
-                    </span>
-                </div>
-            </div>
-            `)
-}
 
 // Change it to call another function?
 function processPokeType(obtainedApiToSetType) {
@@ -79,6 +52,7 @@ async function display(pokemon_type_) {
         add_them_divs += `</div>`;
     }
 }
+
 
 // Parsing through our searchIndex.
 async function submitSearch() {
@@ -114,19 +88,35 @@ async function initSearch() {
     })
 }
 
-// ignore for now. type should have 0 impact.
-// function insertTypeEventToTheTimeLine(poke_type) {
-//     $.ajax({
-//         url: "http://localhost:5000/onlineShopping/insertCardToPurchase",
-//         type: "PUT",
-//         data: {
-//             text: `Client has searched for type ${poke_type}`,
-//             time: `at time ${now}`,
-//             hits: 1
-//         },
-//         success: function () {}
-//     })
-// }
+
+// Appending pokemon images for display.
+function process_search_Pokemon_response(obtained_api_data) {
+    console.log(obtained_api_data)
+    var bgColorChange = ""
+    typeForColor = obtained_api_data.types[0].type.name
+    for (var x in colors) {
+        if (typeForColor == x) {
+            bgColorChange = colors[x]
+        }
+    }
+    $("main").append(`
+            <div class="image_container" style="background-color:${bgColorChange}">
+                <div class=OuterDiv>
+                    <span>
+                    <button class="shop-item-button">Add to Cart!</button>
+                    </span>
+                    <h3 class="shop-pokemon-name"> ${obtained_api_data.name} </h3> 
+                    <a href="/profile/${obtained_api_data.id}">  
+                    <img src="${obtained_api_data.sprites.other["official-artwork"].front_default}">
+                    </a>
+                    <span>
+                    Price: <span class="shop-pokemon-price">${obtained_api_data.weight}</span>
+                    </span>
+                </div>
+            </div>
+            `)
+}
+
 
 function insertPokeMonToDB(retrievePokeName, retrieveCost) {
     let nameOfPokemon = retrievePokeName
@@ -134,23 +124,24 @@ function insertPokeMonToDB(retrievePokeName, retrieveCost) {
     console.log(priceOfPokemon)
     $.ajax({
         url: "http://localhost:5002/onlineShopping/insertCardToPurchase",
-        // Putting data pokemon name and qty into the database
+        // Putting data pokemon name and qty into the database after Schema
         type: "PUT",
         data: {
             name: `${nameOfPokemon} `,
             price: `${priceOfPokemon}`,
-            qty: 1
+            qty: 0,
+            total: 0,
         },
         success: function () {}
     })
 }
 
+// only need name, price
 function addToCartClicked(event) {
     var button = event.target
     var shopItem = button.parentElement.parentElement
     var pokeName = shopItem.getElementsByClassName('shop-pokemon-name')[0].innerHTML
     var price = shopItem.getElementsByClassName('shop-pokemon-price')[0].innerHTML
-    console.log(price)
     insertPokeMonToDB(pokeName, price)
 }
 

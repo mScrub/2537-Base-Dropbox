@@ -158,7 +158,12 @@ h1{
     color: #333;
 }
 .shoppingBoxQty{
-    width: 35%;
+    width: 25%;
+}
+
+/* cart styling */
+.shoppingBoxTotal{
+    width: 10%;
 }
 
 
@@ -176,3 +181,6 @@ h1{
     cursor: pointer;
 }
 
+li{
+    list-style-type: none;
+}
