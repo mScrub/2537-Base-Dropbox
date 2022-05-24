@@ -1,10 +1,55 @@
+// // async and await for the changes to happen.
+// async function changeQty() {
+//     // listens to thjis value 
+
+//     // so this value targets our class .cardprice, but we used list item to hold the value
+//     price = $('.card-price').val();
+//     console.log('price is' + price)
+//     quantity = $(this).val();
+//     console.log(quantity)
+//     idOfAttributeWhichIsClient = this.id
+//     if (quantity >= 1) {
+//         for (let i = 0; i < quantity; i++) {
+//             await $.ajax({
+//                 type: "GET",
+//                 url: `http://localhost:5002/onlineShopping/increaseCardQty/${idOfAttributeWhichIsClient}`,
+//                 success: () => {
+//                     $.ajax({
+//                         type: "GET",
+//                         url: `http://localhost:5002/onlineShopping/getShoppingCartData`,
+//                         success: (callbackData) => {
+//                             console.log(callbackData)
+//                         }
+//                     })
+//                 }
+//             })
+//         }
+//         loadShoppingCartData();
+//     } else if (quantity < 1) {
+//         for (let i = 0; i > quantity; quantity++) {
+//             await $.ajax({
+//                 type: "GET",
+//                 url: `http://localhost:5002/onlineShopping/decreaseCardQty/${idOfAttributeWhichIsClient}`,
+//                 success: (callbackData) => {
+//                     console.log(callbackData)
+//                 }
+//             })
+//         }
+//         // only update cart after x number of increments.
+//         loadShoppingCartData();
+//     }
+
+
+
+
+
 // remove card feature
 function removeCardButton() {
     idOfClient = this.id
     console.log(idOfClient)
     $.ajax({
         type: "GET",
-        url: `http://localhost:5002/onlineShopping/deleteCard/${idOfClient}`,
+        url: `https://shielded-oasis-91506.herokuapp.com/onlineShopping/deleteCard/${idOfClient}`,
         success: (callbackData) => {
             console.log(callbackData)
             loadShoppingCartData();
@@ -27,77 +72,78 @@ function removeCardButton() {
 
 
 
+// some math..
+
+// if (thisValue )
+
+// console.log(idOfValue)
+
+
+// console.log(idOfAttribute)
+// Gotta use this? rather..?
+// currentValue = $(this).val(); 
+// console.log(currentValue)
+
+//     var cartItemContainer = document.getElementsByClassName('card-quantity-input')[0].p
+
+// $.ajax({
+//     type: "GET",
+//     url: `http://localhost:5002/onlineShopping/increaseCardQty/${idOfAttribute}`,
+//     success: (callbackData) => {
+//         console.log(callbackData)
+//         loadShoppingCartData();
+//     }
+// })
+
 quantity = null
 cardPrice = null
 
-function increaseCardTotal(incrementObject) {
-    incrementObject[0].total = quantity * cardPrice
-    // console.log(incrementObject[0].total)
-
-    console.log(quantity)
-    console.log(cardPrice)
-    $.ajax({
-        type: "GET",
-        url: `http://localhost:5002/onlineShopping/increaseCardTotal/${idOfAttributeWhichIsClient}/${incrementObject[0].total}`,
-        success: () => {}
-    })
-    loadShoppingCartData();
-
-
-
-    // .then($.ajax({
-    //     type: "GET",
-    //     url: `http://localhost:5002/onlineShopping/getShoppingCartData`,
-    //     success: (callbackData) => {
-    //         // loadShoppingCartData();
-    //         // increaseCardTotal(callbackData);
-    //         // in this function, we then want to update the card price. 
-    //         // console.log(callbackData)
-    //     }
-    // }))
-
-}
-
-// old style reload
-function updateDiv() {
-    location.reload();
-}
+// function changeCardTotal(incrementObject) {
+//     incrementObject[0].total = quantity * cardPrice
+//     $.ajax({
+//         type: "GET",
+//         url: `https://shielded-oasis-91506.herokuapp.com/onlineShopping/increaseCardTotal/${idOfAttributeWhichIsClient}/${incrementObject[0].total}`,
+//         success: () => {}
+//     })
+//     loadShoppingCartData();
+// }
 
 // async and await for the changes to happen.
 async function changeQty() {
     cardPrice = $('.card-price').val();
+    // quantity = $(this).val().empty(); 
     quantity = $(this).val();
-    console.log(quantity)
     idOfAttributeWhichIsClient = this.id
+    cardTotal = $('.card-total').val();
+    incrementTotal = quantity * cardPrice;
     if (quantity >= 0) {
         await $.ajax({
             type: "GET",
-            url: `http://localhost:5002/onlineShopping/increaseCardQty/${idOfAttributeWhichIsClient}/${quantity}`,
-            success: () => {}
-            // empty success.
+            url: `https://shielded-oasis-91506.herokuapp.com/onlineShopping/increaseCardQty/${idOfAttributeWhichIsClient}/${quantity}`,
+            success: (object) => {
+                loadShoppingCartData();
+            }
         }).then($.ajax({
             type: "GET",
-            url: `http://localhost:5002/onlineShopping/getShoppingCartData`,
+            url: `https://shielded-oasis-91506.herokuapp.com/onlineShopping/increaseCardTotal/${idOfAttributeWhichIsClient}/${incrementTotal}`,
+            data:{},
             success: (callbackData) => {
-                // loadShoppingCartData();
-                increaseCardTotal(callbackData);
-                // in this function, we then want to update the card price. 
-                // console.log(callbackData)
+                loadShoppingCartData();
+                // changeCardTotal(callbackData);
             }
         }))
     } else if (quantity < 1) {
         await $.ajax({
             type: "GET",
-            url: `http://localhost:5002/onlineShopping/decreaseCardQty/${idOfAttributeWhichIsClient}/${quantity}`,
-            success: () => {}
+            url: `https://shielded-oasis-91506.herokuapp.com/onlineShopping/decreaseCardQty/${idOfAttributeWhichIsClient}/${quantity}`,
+            success: () => {
+                loadShoppingCartData();
+            }
         }).then($.ajax({
             type: "GET",
-            url: `http://localhost:5002/onlineShopping/getShoppingCartData`,
+            url: `https://shielded-oasis-91506.herokuapp.com/onlineShopping/increaseCardTotal/${idOfAttributeWhichIsClient}/${incrementTotal}`,
             success: (callbackData) => {
-                // decrementPriceValue(callbackData);
-                // loadShoppingCartData();
-                // in this function, we then want to update the card price. 
-                // change price downwards.
+                loadShoppingCartData();
             }
         }))
     }
@@ -107,13 +153,11 @@ async function changeQty() {
 // took out of span
 //                     <span class="card-price" value="${received_data[i].price}"> ${received_data[i].price} </span>
 // pay attn to ._id = object id of the ajax request =_=!
-// Shopping Cart Load, placement is also key, if we redefine another function
-// That function in itself will not be able to do real time delete
 async function loadShoppingCartData() {
     $('.big-container-for-cards').empty();
     await $.ajax({
         type: "GET",
-        url: "http://localhost:5002/onlineShopping/getShoppingCartData",
+        url: `https://shielded-oasis-91506.herokuapp.com/onlineShopping/getShoppingCartData`,
         success: (received_data) => {
             for (i = 0; i < received_data.length; i++) {
                 $(".big-container-for-cards").append(
@@ -125,7 +169,7 @@ async function loadShoppingCartData() {
                     <li id="${received_data[i]._id}" class="card-price" type="number" value="${received_data[i].price}"}>$${received_data[i].price}</li>
                     </div>
                     <div class="shoppingBoxQty shop-column">
-                    <input id="${received_data[i]._id}" class="card-quantity-input" type="number" value="${received_data[i].qty}"}>
+                    <input id="${received_data[i]._id}" onfocus="this.value=''" class="card-quantity-input" type="number" value="${received_data[i].qty}"}>
                     </div>
                     </div>
                     <div class="shoppingBoxTotal shop-column">
@@ -140,20 +184,10 @@ async function loadShoppingCartData() {
 }
 
 
-//  class="card-price" id="${received_data[i]._id}
-
-
-
 function setup() {
     loadShoppingCartData()
     $(".big-container-for-cards").on('click', '.DeleteButton', removeCardButton)
-    // based on event change.
-    // target container, target id, event changer
-    // var cartItemContainer = document.getElementsByClassName('card-quantity-input')[0].value
-    // console.log(cartItemContainer)
-
     $(".big-container-for-cards").on('change', '.card-quantity-input', changeQty)
-    // document.getElementsByClassName("card-quantity-input").addEventListener("change", changeQty(this.value));
 }
 
 $(document).ready(setup)

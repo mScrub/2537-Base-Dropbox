@@ -51,6 +51,7 @@ const {
 // may not need topology. Our own Server to send it over.  
 // useNewUrlParser: true, useUnifiedTopology: true timelineDB
 
+//  connect(mongodb://localhost:27017/timelineDB)
 // remote connector / promise is sent to us using .then() to catch.
 mongoose.connect(connectorForLoginAndPokemon, {
     useNewUrlParser: true,
@@ -200,12 +201,12 @@ app.get('/', function (req, res){
     console.log("test route")
     if (req.session.isAuthenticated){
         // if user is authenticated, then redirect to search.html
-        res.redirect('/search.html')
+        res.status(200).redirect('/search.html')
         // res.send(`'Hi there ${req.session.user}`)
     }
     else{
         // redirect to only login.html page
-        res.redirect('/index.html')
+        res.status(200).redirect('/index.html')
     }
 
 })
@@ -218,8 +219,10 @@ app.post('/login/validation', function (req, res, next) {
     UserModel.find({}, function (err, userData) {
         if (err) {
             console.log('Error' + err)
+            res.status(500).send();
         } else {
             console.log("Data -> Hello" + userData)
+            res.status(200).send();
         }
         // This filtration also runs 4 times
         singleUser = userData.filter((dBObjectEmail) => {
@@ -351,7 +354,15 @@ function logger3(req, res, next) {
 }
 
 
+// Cutted out the .get method, now we wanna check 
+// authentication process, we can do redirects too
+// Another page that can access session variable are the same sessions, (2+ tabs = 1 session, unless we open a fresh browser) A
+// 1 user that is authenticated. html form for user/pw, but we can do it through URL params for the interim
+// We can add another route because we don't have a login route yet, specifically a user/pw req. // added above.
 
+
+
+// for logoff, just set auth to false, suppose person clicks on logout, then it'll give a new path link.
 
 
 // ---------------------------- NEW CREATION ROUTES FOR LOGIN/SESSIONS
@@ -364,12 +375,11 @@ app.put('/register/create', function (req, res) {
     }, function (err, data) {
         if (err) {
             console.log("Error " + err);
+            res.status(500);
         } else {
             console.log("Data " + data);
+            res.status(200).send(data);
         }
-        // data send
-        res.send("Registered New User!");
-
     })
 })
 
@@ -382,12 +392,11 @@ app.get('/onlineShopping/getShoppingCartData', function (req, res) {
     cartModel.find({}, function (err, data) {
         if (err) {
             console.log("Error " + err);
+            res.status(500);
         } else {
             console.log("Data " + data);
+            res.status(200).send(data);
         }
-        // data send
-        res.send(data);
-
     })
 })
 
@@ -406,10 +415,11 @@ app.put('/onlineShopping/insertCardToPurchase', function (req, res) {
     }, function (err, data) {
         if (err) {
             console.log("Error " + err);
+            res.status(500);
         } else {
             console.log("Data inserted" + data);
+            res.status(200).send("Insertion is done!");
         }
-        res.send("Insertion is done!");
     })
 })
 
@@ -418,19 +428,22 @@ app.put('/onlineShopping/insertCardToPurchase', function (req, res) {
 // UPDATE
 app.get('/onlineShopping/increaseCardQty/:id/:qty', function (req, res) {
     console.log(req.params.id)
+    incrementQtyAsBatch = undefined;
     incrementQtyAsBatch = req.params.qty
     console.log('value of the parameters' + req.params.qty)
     cartModel.updateOne({
         _id: req.params.id
     }, {
-        $inc: {
+        $set: {
             qty: incrementQtyAsBatch
         }
     }, function (err, data) {
         if (err) {
+            res.status(500);
             console.log("Error " + err);
         } else {
             console.log(`ID has ${req.params.id} been incremented. `+ data);
+            res.status(200).send(data);
         }
     })
 })
@@ -443,34 +456,37 @@ app.get('/onlineShopping/decreaseCardQty/:id/:qty', function (req, res) {
     cartModel.updateOne({
         _id: req.params.id
     }, {
-        $inc: {
+        $set: {
             qty: decrementQtyAsBatch
         }
     }, function (err, data) {
         if (err) {
             console.log("Error " + err);
+            res.status(500)
         } else {
             console.log(`ID has ${req.params.id} been decremented. `+ data);
+            res.status(200).send(data);
         }
-        res.send(data);
     });
 })
 
 
-// increasePriceValue
+// increase/decrease card shop total
 app.get('/onlineShopping/increaseCardTotal/:id/:total', function (req, res) {
     cardTotal = req.params.total
     cartModel.updateOne({
         _id: req.params.id
     }, {
-        $inc: {
+        $set: {
             total: cardTotal
         }
     }, function (err, data) {
         if (err) {
             console.log("Error " + err);
+            res.status(500);
         } else {
             console.log(`ID has ${req.params.id} been given new total. `+ data);
+            res.status(200);
         }
     })
 })
@@ -482,10 +498,11 @@ app.get('/onlineShopping/deleteCard/:id', function (req, res) {
     }, {}, function (err, data) {
         if (err) {
             console.log("Error " + err);
+            res.status(500);
         } else {
             console.log(`ID has ${req.params.id} been updated. ` + data);
+            res.status(200).send("Delete is done!");
         }
-        res.send("Delete is done!");
     });
 })
 
@@ -516,7 +533,7 @@ app.get('/profile/:id', function (req, res) {
             )
             res.render("profile.ejs", {
                 "id": req.params.id,
-                "name": combined_object_data.name,
+                "name": combinedS_object_data.name,
                 "hp": filtered_and_mapped_stat[0],
                 "weight": combined_object_data.weight
             });
