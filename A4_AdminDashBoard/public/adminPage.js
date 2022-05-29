@@ -81,7 +81,7 @@ function DeleteUser() {
 }
 
 
-// Obtain users from DB and display
+// Obtain users from DB and display 
 async function searchInitUser() {
     $('#loadInUsers').empty();
     console.log("Triggering search")
@@ -92,16 +92,18 @@ async function searchInitUser() {
             for (i = 0; i < usersInDB.length; i++) {
                 $("#loadInUsers").append(
                     `
-                    <div class="nameOfUser admin-column">
-                    <a> <h4> Name of User <input type="text" id="${usersInDB[i].userName}" value="${usersInDB[i].userName}"> </h4></a>
-                    </div>
-                    <div class="emailOfUser admin-column">
-                    <a id="${usersInDB[i].email}">${usersInDB[i].email}</a>
-                    </div>
-                    <div id="idOfAdmin${usersInDB[i].administrator}" class="adminStatus admin-column">
-                    <a> ${usersInDB[i].administrator} </a>
-                    <a><button class="DeleteButton" id=${usersInDB[i].administrator}>Remove</button> </a>
-                    </div>
+                        <div class="nameOfUser admin-column">
+                        <a> <h4> Name of User <input type="text" id="user-name${usersInDB[i]._id}" value="${usersInDB[i].userName}"> </h4></a>
+                        </div>
+                        <div class="emailOfUser admin-column">
+                        <a> <input type="text" id="email-of-user${usersInDB[i]._id}" value="${usersInDB[i].email}"></a>
+                        </div>
+                        <div id="idOfAdmin${usersInDB[i].administrator}" class="adminStatus admin-column">
+                        <a> ${usersInDB[i].administrator} </a>
+                        <a><button class="DeleteButton" id="${usersInDB[i].administrator}">Remove</button> </a>
+                        </div>
+                        <a><button class="editButton" id=${usersInDB[i]._id}>Edit</button> </a>
+
                     `
                 )
             }
@@ -109,15 +111,39 @@ async function searchInitUser() {
     })
 }
 
+// Update user in DB
+function editUser(){
+    // Grab the ID from the moment of the button selected in the edit field
+    UserIdFromDB = $(this).attr('id')
+    // console.log(UserIdFromDB)
+    // Grab the unique name change VALUE from the unique id.
+    newUserName = $(`#user-name${UserIdFromDB}`).val();
+    // console.log(newUserName)
+    newEmailOfUser = $(`#email-of-user${UserIdFromDB}`).val();
+    // console.log(newEmailOfUser)
+
+    $.ajax({
+        url: `http://localhost:5002/updateUserInDB/${UserIdFromDB}`,
+        type: 'PUT',
+        data:{
+            userName: newUserName,
+            email: newEmailOfUser,
+        },
+        success: () =>{
+            searchInitUser();
+        }
+    })
+}
 
 
 function setup() {
     searchInitUser();
     $('body').on('click', '.DeleteButton', DeleteUser);
+    //  Create a user based on click. Nested in the 3rd div
     $('body').on('click', '.CreateButton', FormNewUser);
-
-
-    //  Create a user based on click.
+    // Placed into the field
+    $('body').on('click', '.editButton', editUser);
+    // Admin Yes/No
     $('.input-group').on('click', radioSelectedfunction)
     // logout
     $("section").on('click', '.logoutBtn', logoutClicked)

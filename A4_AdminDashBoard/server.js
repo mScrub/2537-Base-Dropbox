@@ -309,7 +309,25 @@ app.get('/deleteAcct/:administrator', function (req, res) {
 })
 
 
-
+// UPDATE USER FIELDS
+app.put('/updateUserInDB/:id', function (req, res) {
+    UserModel.updateOne({
+        _id: req.params.id
+    }, {
+        $set: {
+            userName: req.body.userName,
+            email: req.body.email,
+        }
+    }, function (err, user) {
+        if (err) {
+            console.log('Error' + err)
+            res.status(500)
+        } else {
+            console.log('Data' + user)
+            res.status(200).send('Data Updated!')
+        }
+    })
+})
 
 
 
