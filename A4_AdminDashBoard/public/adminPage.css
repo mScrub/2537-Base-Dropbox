@@ -1,0 +1,163 @@
+*{
+    font-family: 'Courier New', Courier, monospace;
+}
+
+h1{
+    text-align: center;
+}
+
+/* main container for cart. middle alignment of entire shop cart */
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    /* 24px approx l/r */
+    padding: 0 1.5em;
+}
+
+/*  */
+.content-section {
+    margin: 1em;
+}
+
+
+/* Header styling */
+.section-header {
+    font-weight: normal;
+    color: rgb(250, 133, 0);
+    text-align: center;
+    font-size: 2.5em;
+}
+
+/* Cart header settings */
+.admin-header {
+    font-weight: bold;
+    font-size: 1.25em;
+    color: #333;
+}
+
+/* Cart row setting */
+.admin-row {
+    display: flex;
+    /* row by default */
+    flex-direction: row;
+    border-bottom: 1px solid  rgb(250, 133, 0);
+
+}
+
+.admin-row:last-child {
+    border-bottom: 1px solid black;
+}
+
+.admin-row:last-child .admin-column {
+    border: none;
+}
+
+
+/* name-of-users */
+/* span adjust through flexbox admin-row*/
+.name-of-user-title {
+    color: #333;
+    margin-left: .5em;
+    font-size: 1.2em;
+}
+
+
+/* even split amongst all class based spans */
+/* Even split amongst all shopping box items? */
+.name-of-user {
+    width: 45%;
+}
+
+/* span adjust */
+.email-of-user {
+    width: 20%;
+    font-size: 1.2em;
+    color: #333;
+}
+
+/* quantity count */
+.status-of-user {
+    width: 35%;
+}
+
+/* for each cart column for line styles at the bottom*/
+.admin-column {
+    display: flex;
+    align-items: center;
+    /* only apply margin to each item/price/qty based on span width */
+    margin-right: 1.5em;
+    padding-bottom: 1em;
+    margin-top: 1em;
+    justify-content: space-evenly;
+}
+
+
+/* General button adjusters for hover/click effect etc */
+.btn-purchase {
+    display: block;
+    margin: 2em 2em 2em 50em;
+    font-size: 1em;
+}
+
+
+.btn-primary {
+    /* primary display color */
+    color: white;
+    background-color: rgb(250, 133, 0);
+    border: none;
+    border-radius: 5px;
+}
+
+.btn-primary:hover {
+    /* hover over the main button, get black bg */
+    background-color: black;
+    cursor: pointer;
+}
+
+
+#loadInUsers{
+    width: 100%;
+    display: flex;
+    /* apply flex flow wrapper to have cards stack properly 
+    because of the given container flex size*/
+    flex-flow:wrap;
+    align-items: center;
+    page-break-inside: avoid;
+    justify-content: space-evenly;
+}
+
+.admin-column{
+    display: flex;
+}
+
+.nameOfUser{
+    width: 45;
+}
+
+.emailOfUser{
+    width: 25%;
+    font-size: 1.2em;
+    color: #333;
+}
+.status-of-user{
+    width: 20%;
+}
+
+
+.DeleteButton, .CreateButton{
+    margin-left: 0.5em;
+    color: white;
+    background-color: rgb(250, 133, 0);
+    border: none;
+    border-radius: 5px;
+}
+
+.DeleteButton:hover, .CreateButton:hover{
+    /* hover over the main button, get black bg */
+    background-color: black;
+    cursor: pointer;
+}
+
+li{
+    list-style-type: none;
+}

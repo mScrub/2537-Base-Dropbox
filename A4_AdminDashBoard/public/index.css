@@ -1,0 +1,49 @@
+header {
+    text-align: center;
+}
+
+* {
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.indexNav #dummy_div .aIndex {
+    display: inline-block;
+    padding: 10px;
+    color: white;
+    text-decoration: none;
+    padding: 14px 16px;
+    text-align: center;
+}
+
+.indexNav #dummy_div .aIndex:hover {
+    background-color: black;
+    color: #f2f2f2;
+    border-radius: 5px;
+}
+
+nav {
+    background-color: #FB8500;
+    /* nav has grid. */
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-content: space-evenly;
+}
+
+
+.nav {
+    display: flex;
+    justify-content: center;
+}
+
+.nav li {
+    list-style: none;
+    margin: 1rem;
+}
+
+.nav li a {
+    color: white;
+    padding: 1rem;
+    text-decoration: none;
+    background: #023047;
+}

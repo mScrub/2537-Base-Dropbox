@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Page</title>
+
+    <!-- Other libraries and styles -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="/adminPage.css">
+</head>
+
+<body>
+    <div>
+        <!-- HTML Layout -->
+        <!-- body of the page, put everything for body in main-->
+        <main class="mainDiv">
+            <h1>Admin Dashboard</h1>
+
+            <section class="container content-section">
+                <button class="logoutBtn">Logout</button>
+                <h2 class="section-header">USERS IN DB</h2>
+                <div class="admin-row">
+                    <span class="name-of-user admin-header admin-column">NAME</span>
+                    <span class="email-of-user admin-header admin-column">EMAIL</span>
+                    <span class="status-of-user admin-header admin-column">ADMIN STATUS</span>
+                </div>
+                <div id="loadInUsers">
+                    <!-- User drop in point -->
+                </div>
+
+                <div class="register-form">
+                    <h3>Create New User</h3>
+                    <div class="input-group">
+                        <label for="username">Username:</label>
+                        <input type="text" class="username" />
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <label for="email">Email:</label>
+                        <input type="email" class="email" />
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <label for="password">Password:</label>
+                        <input class="password" />
+                    </div>
+                    <div class="input-group">
+                        <label for="adminChoice">Admin:</label>
+                        <input type="radio" class="radioBtns" name="adminChoice" value="yes"
+                            style="border: none;">Yes</input>
+                        <input type="radio" class="radioBtns" name="adminChoice" value="no"
+                            style="border: none;">No</input>
+                    </div>
+                    <a><button class="CreateButton" id="">Create</button> </a>
+                </div>
+
+                <div class="messageToAdmin">
+                    <!-- load in simple message -->
+                </div>
+            </section>
+
+
+
+            <script src="/adminPage.js"></script>
+        </main>
+    </div>
+</body>
+
+</html>
