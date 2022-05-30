@@ -158,6 +158,8 @@ function logoutClicked(){
     })
 }
 
+
+
 function setup() {
 
     initSearch();

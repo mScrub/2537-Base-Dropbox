@@ -1,119 +1,79 @@
-/* Color template */
-/* https://coolors.co/palette/8ecae6-219ebc-023047-ffb703-fb8500 */
-/* https://coolors.co/f0a202-f18805-d95d39-0e1428-7b9e89 */
-
-/* Font styling. */
-* {
-    box-sizing: border-box;
-    font-family: Arial, Helvetica, sans-serif;
-}
-nav a {
-    display: inline-block;
-    padding: 10px;
-
-    color: #f2f2f2;
-    text-decoration: none;
-
-    padding: 14px 16px;
-    text-align: center;
-
-}
-/* Search form color */
-form{
-    color: #f2f2f2;
-}
-/* Navbar under header Grid*/
-nav {
-    background-color: #FB8500;
-    /* nav has grid. */
-    display: grid;
-    grid-template-columns: auto auto;
-    justify-content: center;
-}
-
-
-
-.shoppingCartBtn{
-    color: black;
-    font-size: 2em;
-    border: 1px black solid;
-    border-radius: 5px;
-}
-
-/* Nav Hovering effect. */
-nav a:hover {
-    background-color: white;
-    color: #f2f2f2;
-    border-radius: 5px;
-}
-/* Create grid display, triple columns */
-main{
-    display: grid;
-    grid-template-columns: auto auto auto;
-    gap: 20px;
-}
-
-/* Each image has its own little box spaced out by 10px from the main grid */
-.image_container{
-    /* Replace the bg image later on with utils.css switch case based on type */
-    border: 1px #FB8500 solid;
-    border-radius: 10px;
-    /* Part A of the hover effects */
-    transition: 0.15s;
-}
-/* Part B of CSS 2d scale transformation, only need transition
-and transform shadowing during the moment of hover only*/
-.image_container:hover{
-    transform: scale(1.02);
-    box-shadow: 2px 2px grey;
-}
-
-/* Images Group on the other hand is just to set 3 columns 3 images per column */
-/* Profiling style */
-
-.article{
-    max-width: 33%;
-}
-
-
-.base_elements{
-    display: grid;
-    width: fit-content;
-    border: 2px white solid;
-    background-color: aqua;
-    border-radius: 10px;
-    justify-content: center;
-}
-
-h3{
-    text-align: center;
-}
-
-
-.profileBody{
-    background-color: beige;
-}
-
-@media (max-width: 600px){
-    main{
-        display: grid;
-        grid-template-columns: auto;
-        gap: 20px;
-    }
-}
-
-
-/* Add to Cart Styling */
-
-.shop-item-button{
+body {
+    /* 0px as due to Chrome default. */
+    margin: 0px;
+        /* background color and image allotment */
     color: white;
-    background-color: #219EBC;
-    border: none;
-    border-radius: 5px;
+    background-image: url(PokemonImage.jpg);
+    background-position: 100%;
+}
+
+/* A container that's positioned overlay of elements*/
+/* Set both items below .card and .front-face to relative/absolute inside this container~ */
+#game_grid {
+    background-color: aliceblue;
+    border: 2px orange solid;
+    width: 600px;
+    height: 400px;
+    /* center both horizontally/vertically */
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    /* declare it to perspective, to allow us to create 3-D  */
+    /* Object = Screen */
+    /* The perspective is the distance between you and the object. 
+    Higher is further*/
+    perspective: 1000px;
 }
 
 
-.shop-item-button:hover{
-    background-color: black;
-    cursor: pointer;
+/* card class leave it as it is */
+.card {
+    width: 33.3%;
+    position: relative;
+    /* transition is allowing for period of time of transformation */
+    transition: transform 1s;
+    /*How Part -> given the perspective container declaration */
+    transform-style: preserve-3d;
 }
+
+/* Apply flip first to the .card (rotation) Like looking into a mirror*/
+/* Rotate on Y-axis, we can click on it and it'll toggle from jQuery */
+
+.flip {
+    transform: rotateY(180deg);
+}
+
+img {
+    width: 100px;
+    height: 125px;
+    border-radius: 3px;
+}
+
+/* front/back face rules */
+/* absolute here, relative on card for cards to stack */
+/* Absolute does not work unless it's nearest ancestor(parent) has a position like relative */
+/* So far, this allows the front/face and backface images to stay in the position of the parent (relative) */
+/* Relative then is positioned based on the body */
+/* top and bototm positions in each other are 0px, so we can reposition it if we need */
+/* is inside the card container, of the card container that's fitting 33% of the main game grid. */
+/* top/right positioning by pixel */
+.front-face,
+.back-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+
+    /* flip and hide both front-face/back-face | not to card*/
+    backface-visibility: hidden;
+}
+
+
+/* Apply us a new transformation after click and flip */
+
+.front-face {
+    transform: rotateY(180deg);
+}
+
+
+/* Before Game Logic */

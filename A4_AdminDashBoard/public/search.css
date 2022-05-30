@@ -1,0 +1,119 @@
+/* Color template */
+/* https://coolors.co/palette/8ecae6-219ebc-023047-ffb703-fb8500 */
+/* https://coolors.co/f0a202-f18805-d95d39-0e1428-7b9e89 */
+
+/* Font styling. */
+* {
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+nav a {
+    display: inline-block;
+    padding: 10px;
+
+    color: #f2f2f2;
+    text-decoration: none;
+
+    padding: 14px 16px;
+    text-align: center;
+
+}
+/* Search form color */
+form{
+    color: #f2f2f2;
+}
+/* Navbar under header Grid*/
+nav {
+    background-color: #FB8500;
+    /* nav has grid. */
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-content: space-evenly;
+}
+
+
+
+.shoppingCartBtn{
+    color: black;
+    font-size: 2em;
+    border: 1px black solid;
+    border-radius: 5px;
+}
+
+/* Nav Hovering effect. */
+nav a:hover {
+    background-color: white;
+    color: #f2f2f2;
+    border-radius: 5px;
+}
+/* Create grid display, triple columns */
+main{
+    display: grid;
+    grid-template-columns: auto auto auto;
+    gap: 20px;
+}
+
+/* Each image has its own little box spaced out by 10px from the main grid */
+.image_container{
+    /* Replace the bg image later on with utils.css switch case based on type */
+    border: 1px #FB8500 solid;
+    border-radius: 10px;
+    /* Part A of the hover effects */
+    transition: 0.15s;
+}
+/* Part B of CSS 2d scale transformation, only need transition
+and transform shadowing during the moment of hover only*/
+.image_container:hover{
+    transform: scale(1.02);
+    box-shadow: 2px 2px grey;
+}
+
+/* Images Group on the other hand is just to set 3 columns 3 images per column */
+/* Profiling style */
+
+.article{
+    max-width: 33%;
+}
+
+
+.base_elements{
+    display: grid;
+    width: fit-content;
+    border: 2px white solid;
+    background-color: aqua;
+    border-radius: 10px;
+    justify-content: space-evenly;
+}
+
+h3{
+    text-align: center;
+}
+
+
+.profileBody{
+    background-color: beige;
+}
+
+@media (max-width: 600px){
+    main{
+        display: grid;
+        grid-template-columns: auto;
+        gap: 20px;
+    }
+}
+
+
+/* Add to Cart Styling */
+
+.shop-item-button{
+    color: white;
+    background-color: #219EBC;
+    border: none;
+    border-radius: 5px;
+}
+
+
+.shop-item-button:hover{
+    background-color: black;
+    cursor: pointer;
+}
