@@ -177,7 +177,8 @@ app.post('/login/validation', function (req, res, next) {
         if (filteredUserData.length == 0 || filteredUserData == undefined || filteredUserData == null || filteredUserData == '' || filteredUserData == []) {
             res.send('No such user in the DB')
         } else if (filteredUserData[0].password != req.body.password) {
-            res.send("Incorrect Password!" + filteredUserData)
+            console.log("incorrect pw")
+            res.send("Incorrect Password!")
         } else if (filteredUserData[0].password == req.body.password) {
             req.session.isAdminAuthenticated = true
             req.session.isAuthenticated = true
