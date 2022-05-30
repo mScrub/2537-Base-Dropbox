@@ -8,7 +8,11 @@ function validateRegUser(regUserObject) {
     console.log(regUserObject)
     if (regUserObject == "No such user in the DB!") {
         alert("No such user exists in our database!")
-    } else if (regUserObject == "Incorrect Password!") {
+    } 
+    else if ('This email does not exist!'){
+        alert("Email is non-existent")
+    }
+    else if (regUserObject == "Incorrect Password!") {
         alert("The password is incorrect!")
     }
     else{
@@ -31,12 +35,8 @@ async function ValidateUser() {
     })
 }
 
-// window.location.href = "http://localhost:5002/searchPage"
-// // redirects don't happen after ajax call..
-
 // processObjectData to be called a "2nd time" once they've filtered data to redirect properly.
 function processObjectData(adminObject) {
-    // console.log(adminObject + "Hey this is supposed to work!")
     if (adminObject[0].administrator == true) {
         alert("Admin page hit")
         window.location.href = "http://localhost:5002/adminPage"

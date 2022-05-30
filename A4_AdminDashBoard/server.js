@@ -37,7 +37,6 @@ const {
 } = require('mongodb');
 
 
-//  connect(mongodb://localhost:27017/timelineDB)
 // remote connector / promise is sent to us using .then() to catch.
 mongoose.connect(connectorForLoginAndPokemon, {
     useNewUrlParser: true,
@@ -166,7 +165,6 @@ app.post('/login/validation', function (req, res, next) {
             console.log("Data -> Hello" + userData)
         }
         // userData is what we've found.. in projection after selection {}
-        // userData[0] is needed because we're inside an array. 
         // check DB PW and Body PW entered in login.html
         // console.log(req.body.email + "Before any save
         // Filter first)
@@ -177,7 +175,7 @@ app.post('/login/validation', function (req, res, next) {
         if (filteredUserData.length == 0 || filteredUserData == undefined || filteredUserData == null || filteredUserData == '' || filteredUserData == []) {
             res.send('No such user in the DB!')
         } else if (filteredUserData[0].email != req.body.email || req.body.email == '') {
-            res.send('No such user in the DB!')
+            res.send('This email does not exist!')
         } else if (filteredUserData[0].password != req.body.password) {
             console.log("incorrect pw")
             res.send("Incorrect Password!")
@@ -250,13 +248,9 @@ app.post("/logout", (req, res) => {
 app.get('/home', function (req, res) {
 
     console.log("/Home route got triggered.")
-    // res.status(200).sendFile(path.resolve(__dirname, "public", "index.html"));
     if (req.session.isAuthenticated) {
-        // if user is authenticated, then redirect to search.html
         res.redirect('/search.html')
-        // res.send(`'Hi there ${req.session.user}`)
     } else {
-        // redirect to only login.html page
         res.redirect('/login.html')
     }
 })
@@ -280,11 +274,8 @@ app.get('/searchPage', function (req, res, next) {
 
     console.log("the callback function of /searchPage is triggered")
     if (req.session.isAuthenticated) {
-        // if user is authenticated, then redirect to search.html
         res.redirect('/search.html')
-        // res.send(`'Hi there ${req.session.user}`)
     } else {
-        // redirect to only login.html page
         res.redirect('/login.html')
     }
 })
@@ -363,8 +354,6 @@ app.get('/onlineShopping/getShoppingCartData', function (req, res) {
 
 // insert route. to add these items.
 // CREATE
-// In the text field, of the body, we want text
-// total stores the amount. Price stays same
 app.put('/onlineShopping/insertCardToPurchase', function (req, res) {
     console.log(req.body);
     cartModel.create({
