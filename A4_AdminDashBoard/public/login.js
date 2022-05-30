@@ -6,7 +6,7 @@ let UserPassword = '';
 // Only way to get past [object, Object] is to use filter first and have it return values from req.
 function validateRegUser(regUserObject) {
     console.log(regUserObject)
-    if (regUserObject == "No such user in the DB") {
+    if (regUserObject == "No such user in the DB!") {
         alert("No such user exists in our database!")
     } else if (regUserObject == "Incorrect Password!") {
         alert("The password is incorrect!")
