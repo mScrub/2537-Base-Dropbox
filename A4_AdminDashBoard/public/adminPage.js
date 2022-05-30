@@ -64,7 +64,6 @@ async function FormNewUser() {
 
 // Delete the User
 function DeleteUser() {
-    // selecting the property of this id attribute
     adminStatus = $(this).attr(`id`)
     if (adminStatus == 'false') {
         $.ajax({
@@ -113,15 +112,9 @@ async function searchInitUser() {
 
 // Update user in DB
 function editUser(){
-    // Grab the ID from the moment of the button selected in the edit field
     UserIdFromDB = $(this).attr('id')
-    // console.log(UserIdFromDB)
-    // Grab the unique name change VALUE from the unique id.
     newUserName = $(`#user-name${UserIdFromDB}`).val();
-    // console.log(newUserName)
     newEmailOfUser = $(`#email-of-user${UserIdFromDB}`).val();
-    // console.log(newEmailOfUser)
-
     $.ajax({
         url: `http://localhost:5002/updateUserInDB/${UserIdFromDB}`,
         type: 'PUT',
