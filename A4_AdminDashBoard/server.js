@@ -175,7 +175,9 @@ app.post('/login/validation', function (req, res, next) {
         })
         // console.log(filteredUserData) // be wary of redirect/sends..
         if (filteredUserData.length == 0 || filteredUserData == undefined || filteredUserData == null || filteredUserData == '' || filteredUserData == []) {
-            res.send('No such user in the DB')
+            res.send('No such user in the DB!')
+        } else if (filteredUserData[0].email != req.body.email || req.body.email == '') {
+            res.send('No such user in the DB!')
         } else if (filteredUserData[0].password != req.body.password) {
             console.log("incorrect pw")
             res.send("Incorrect Password!")
