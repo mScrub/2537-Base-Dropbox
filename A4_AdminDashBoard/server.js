@@ -168,17 +168,28 @@ app.post('/login/validation', function (req, res, next) {
         // userData is what we've found.. in projection after selection {}
         // userData[0] is needed because we're inside an array. 
         // check DB PW and Body PW entered in login.html
-        if (userData[0].password == req.body.password) {
-            // Status for admin check
+        // console.log(req.body.email + "Before any save
+        // Filter first)
+        let filteredUserData = userData.filter((regUserInfo) => {
+            return regUserInfo
+        })
+        // console.log(filteredUserData) // be wary of redirect/sends..
+        if (filteredUserData.length == 0 || filteredUserData == undefined || filteredUserData == null || filteredUserData == '' || filteredUserData == []) {
+            res.send('No such user in the DB')
+        } else if (filteredUserData[0].password != req.body.password) {
+            res.send("Incorrect Password!" + filteredUserData)
+        } else if (filteredUserData[0].password == req.body.password) {
             req.session.isAdminAuthenticated = true
             req.session.isAuthenticated = true
             // id from the object the users collection in DB, which is now stored in session
             req.session.userid = userData[0]._id;
             req.session.email = req.body.email;
             req.session.isAdministrator = userData[0].administrator;
+            req.session.userHeldObject = {
+                userName: req.body.userName,
+            }
             req.session.save()
-            console.log("Hitting search page")
-            res.status(200).redirect('/searchPage')
+            res.send(filteredUserData)
         }
     })
 })
@@ -204,11 +215,11 @@ app.post('/login/validation/admin', function (req, res, next) {
             administrator: req.body.administrator
         }
         // Utilized filter function to iterate each variable in the array.
-        let filteredData = adminData.filter((administrator) =>{
+        let filteredData = adminData.filter((administrator) => {
             return administrator
         })
         // console.log(filteredData) // be wary of redirect/sends..
-        if (filteredData == undefined || filteredData == null || filteredData == '' || filteredData == []){
+        if (filteredData == undefined || filteredData == null || filteredData == '' || filteredData == []) {
             res.send('No admin in such database')
         }
         // Filter is a for loop already, check for admin stats
