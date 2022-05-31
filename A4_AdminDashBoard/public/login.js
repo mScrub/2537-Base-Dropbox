@@ -5,13 +5,10 @@ let UserPassword = '';
 
 // Only way to get past [object, Object] is to use filter first and have it return values from req.
 function validateRegUser(regUserObject) {
-    console.log(regUserObject)
+    console.log(regUserObject + "inside login.js")
     if (regUserObject == "No such user in the DB!") {
         alert("No such user exists in our database!")
     } 
-    else if ('This email does not exist!'){
-        alert("Email is non-existent")
-    }
     else if (regUserObject == "Incorrect Password!") {
         alert("The password is incorrect!")
     }
@@ -35,8 +32,16 @@ async function ValidateUser() {
     })
 }
 
+// window.location.href = "http://localhost:5002/searchPage"
+// // redirects don't happen after ajax call.. 1 of 2 choices, to display data after ajax call
+// or to success set another function, to trigger a call on that which can be used to alternate routes.
+
 // processObjectData to be called a "2nd time" once they've filtered data to redirect properly.
 function processObjectData(adminObject) {
+    // console.log(adminObject + "Hey this is supposed to work!")
+    if (adminObject == "Incorrect password!"){
+        alert("Incorrect Password Entered, try again!")
+    }
     if (adminObject[0].administrator == true) {
         alert("Admin page hit")
         window.location.href = "http://localhost:5002/adminPage"

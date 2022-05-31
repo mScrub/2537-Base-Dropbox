@@ -37,6 +37,7 @@ const {
 } = require('mongodb');
 
 
+//  connect(mongodb://localhost:27017/timelineDB)
 // remote connector / promise is sent to us using .then() to catch.
 mongoose.connect(connectorForLoginAndPokemon, {
     useNewUrlParser: true,
@@ -165,18 +166,24 @@ app.post('/login/validation', function (req, res, next) {
             console.log("Data -> Hello" + userData)
         }
         // userData is what we've found.. in projection after selection {}
+        // userData[0] is needed because we're inside an array. 
         // check DB PW and Body PW entered in login.html
         // console.log(req.body.email + "Before any save
         // Filter first)
         let filteredUserData = userData.filter((regUserInfo) => {
-            return regUserInfo
+            // return strictly the email entered from the body.
+            return regUserInfo.email == req.body.email
         })
+
+        console.log(filteredUserData[0].email)
+        console.log(req.body.email)
         // console.log(filteredUserData) // be wary of redirect/sends..
-        if (filteredUserData.length == 0 || filteredUserData == undefined || filteredUserData == null || filteredUserData == '' || filteredUserData == []) {
+        if (filteredUserData.length == 0 || filteredUserData[0] == undefined || filteredUserData[0] == null || filteredUserData[0] == '' || filteredUserData[0] == []) {
             res.send('No such user in the DB!')
-        } else if (filteredUserData[0].email != req.body.email || req.body.email == '') {
-            res.send('This email does not exist!')
-        } else if (filteredUserData[0].password != req.body.password) {
+        }
+        else if (filteredUserData[0].password != req.body.password) {
+            console.log(req.body.password + "Body pw")
+            console.log(filteredUserData[0].password + "pw of filter")
             console.log("incorrect pw")
             res.send("Incorrect Password!")
         } else if (filteredUserData[0].password == req.body.password) {
@@ -190,8 +197,10 @@ app.post('/login/validation', function (req, res, next) {
                 userName: req.body.userName,
             }
             req.session.save()
-            res.send(filteredUserData)
+            res.status(200).send(filteredUserData)
         }
+
+
     })
 })
 
@@ -208,25 +217,33 @@ app.post('/login/validation/admin', function (req, res, next) {
             console.log("Data -> Admin" + adminData[0])
             // res.status(200).send(adminData)
         }
-        req.session.isAdminAuthenticated = true
-        req.session.isAuthenticated = true
-        req.session.email = req.body.email;
-        req.session.save()
-        req.session.adminDataObj = {
-            administrator: req.body.administrator
-        }
         // Utilized filter function to iterate each variable in the array.
         let filteredData = adminData.filter((administrator) => {
-            return administrator
+            // console.log(administrator.email)
+            // return the admin data if the admin email is equal to body email
+            console.log(req.body.email)
+            return administrator.email == req.body.email
         })
+        console.log(filteredData)
         // console.log(filteredData) // be wary of redirect/sends..
         if (filteredData == undefined || filteredData == null || filteredData == '' || filteredData == []) {
             res.send('No admin in such database')
         }
         // Filter is a for loop already, check for admin stats
-        else if (filteredData[0].administrator == true) {
+        else if (filteredData[0].password != req.body.password){
+            res.send('Incorrect password!')
+        }
+        else if (filteredData[0].administrator == true && filteredData[0].password == req.body.password) {
+            console.log(filteredData[0].password)
             // if (req.body.email === adminData[0].email)
-            res.send(filteredData)
+            req.session.isAdminAuthenticated = true
+            req.session.isAuthenticated = true
+            req.session.email = req.body.email;
+            req.session.save()
+            req.session.adminDataObj = {
+                administrator: req.body.administrator
+            }
+            res.status(200).send(filteredData)
         }
     })
 })
@@ -248,9 +265,13 @@ app.post("/logout", (req, res) => {
 app.get('/home', function (req, res) {
 
     console.log("/Home route got triggered.")
+    // res.status(200).sendFile(path.resolve(__dirname, "public", "index.html"));
     if (req.session.isAuthenticated) {
+        // if user is authenticated, then redirect to search.html
         res.redirect('/search.html')
+        // res.send(`'Hi there ${req.session.user}`)
     } else {
+        // redirect to only login.html page
         res.redirect('/login.html')
     }
 })
@@ -274,8 +295,11 @@ app.get('/searchPage', function (req, res, next) {
 
     console.log("the callback function of /searchPage is triggered")
     if (req.session.isAuthenticated) {
+        // if user is authenticated, then redirect to search.html
         res.redirect('/search.html')
+        // res.send(`'Hi there ${req.session.user}`)
     } else {
+        // redirect to only login.html page
         res.redirect('/login.html')
     }
 })
@@ -354,6 +378,8 @@ app.get('/onlineShopping/getShoppingCartData', function (req, res) {
 
 // insert route. to add these items.
 // CREATE
+// In the text field, of the body, we want text
+// total stores the amount. Price stays same
 app.put('/onlineShopping/insertCardToPurchase', function (req, res) {
     console.log(req.body);
     cartModel.create({
